@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GL Financial Consulting — Fractional CFO for U.S. Companies</title>
+<link rel="icon" type="image/png" href="gl-seal-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b1a2e;
+    --navy-2:#0f2338;
+    --graphite:#2b2f36;
+    --cream:#f5f3ee;
+    --gold:#c9a24a;
+    --gold-soft:#e4c98a;
+    --text-dark:#1c2430;
+    --text-light:#f5f3ee;
+    --muted:#9aa7b8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;color:var(--text-dark);background:var(--cream);line-height:1.6;}
+  h1,h2,h3,.serif{font-family:'Playfair Display',serif;}
+  a{text-decoration:none;color:inherit;}
+  .container{max-width:1160px;margin:0 auto;padding:0 32px;}
+  .grid-texture{
+    background-image:
+      linear-gradient(rgba(201,162,74,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,162,74,0.08) 1px, transparent 1px);
+    background-size:64px 64px;
+  }
+
+  /* NAV */
+  header{position:sticky;top:0;z-index:50;background:var(--navy);border-bottom:1px solid rgba(201,162,74,0.25);}
+  nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0;}
+  .logo{display:flex;align-items:center;gap:11px;color:var(--text-light);font-family:'Playfair Display',serif;font-size:20px;font-weight:600;letter-spacing:0.5px;}
+  .logo img{width:40px;height:40px;border-radius:8px;flex-shrink:0;}
+  .logo span{color:var(--text-light);}
+  .nav-links{display:flex;gap:30px;align-items:center;flex-wrap:nowrap;}
+  .nav-links a{color:var(--text-light);font-size:14px;opacity:0.85;transition:opacity .2s;white-space:nowrap;}
+  .nav-links a:hover{opacity:1;color:var(--gold-soft);}
+  .lang-toggle{display:flex;border:1px solid rgba(201,162,74,0.5);border-radius:999px;overflow:hidden;font-size:12px;font-weight:600;}
+  .lang-toggle button{padding:6px 14px;background:transparent;border:none;color:var(--muted);cursor:pointer;letter-spacing:1px;}
+  .lang-toggle button.active{background:var(--gold);color:var(--navy);}
+  .cta-btn{border:1px solid var(--gold);color:var(--gold-soft);padding:11px 22px;font-size:12px;letter-spacing:1.5px;font-weight:600;border-radius:2px;white-space:nowrap;transition:all .2s;}
+  .cta-btn:hover{background:var(--gold);color:var(--navy);}
+  .nav-right{display:flex;align-items:center;gap:20px;}
+
+  /* HERO */
+  .hero{background:var(--navy);color:var(--text-light);position:relative;overflow:hidden;padding:130px 0 110px;}
+  .hero-grid{position:relative;z-index:2;max-width:680px;}
+  .eyebrow{display:flex;align-items:center;gap:12px;color:var(--gold-soft);font-size:12px;letter-spacing:2.5px;font-weight:600;margin-bottom:28px;}
+  .eyebrow::before{content:"";width:36px;height:1px;background:var(--gold);}
+  .hero h1{font-size:52px;font-weight:500;line-height:1.15;margin-bottom:26px;}
+  .hero p.lead{font-size:17px;color:var(--muted);max-width:480px;margin-bottom:36px;}
+
+  /* SERVICES INTRO */
+  .services-intro{background:var(--cream);padding:70px 0;border-bottom:1px solid #e4e0d5;}
+  .services-intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+  .bar{width:56px;height:2px;background:var(--gold);margin-bottom:22px;}
+  .services-intro h2{font-size:32px;font-weight:500;line-height:1.3;}
+  .services-intro p{color:#5a6270;font-size:16px;}
+
+  /* SERVICES GRID */
+  .services{background:var(--cream);}
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);}
+  .service-card{padding:44px 40px;border-top:1px solid #e4e0d5;border-right:1px solid #e4e0d5;}
+  .service-card:nth-child(3n){border-right:none;}
+  .service-icon{width:44px;height:44px;margin-bottom:22px;color:var(--gold);}
+  .service-card h3{font-size:21px;font-weight:500;margin-bottom:14px;}
+  .service-card p{color:#5a6270;font-size:14.5px;}
+
+  /* ABOUT */
+  .about{background:var(--navy-2);color:var(--text-light);padding:100px 0;}
+  .about-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:64px;align-items:center;}
+  .photo-frame{aspect-ratio:4/5;border:1px solid rgba(201,162,74,0.5);position:relative;background:linear-gradient(160deg,#132a44,#0b1a2e);display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;overflow:hidden;}
+  .photo-frame img{width:100%;height:100%;object-fit:cover;filter:grayscale(15%);}
+  .photo-frame::before,.photo-frame::after{content:"";position:absolute;width:22px;height:22px;border:1px solid var(--gold);z-index:2;}
+  .photo-frame::before{top:-1px;left:-1px;border-right:none;border-bottom:none;}
+  .photo-frame::after{bottom:-1px;right:-1px;border-left:none;border-top:none;}
+  .photo-frame span{color:var(--muted);font-size:13px;line-height:1.6;}
+  .about h2{font-size:30px;font-weight:500;margin-bottom:22px;}
+  .about p{color:var(--muted);font-size:15.5px;margin-bottom:16px;max-width:520px;}
+  .about .edu{margin-top:24px;padding-top:20px;border-top:1px solid rgba(201,162,74,0.25);color:#7c8899;font-size:13px;letter-spacing:0.3px;}
+
+  /* RESULTS */
+  .results{background:var(--navy);color:var(--text-light);padding:100px 0;position:relative;}
+  .results h2{font-size:34px;font-weight:500;margin-bottom:14px;}
+  .results > .container > p{color:var(--muted);max-width:520px;margin-bottom:60px;}
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:70px;}
+  .stat{border-left:2px solid var(--gold);padding-left:18px;}
+  .stat .num{font-family:'Playfair Display',serif;font-size:34px;color:var(--gold-soft);}
+  .stat .label{font-size:12.5px;color:var(--muted);margin-top:6px;letter-spacing:0.3px;}
+
+  .timeline{position:relative;padding-left:24px;}
+  .timeline::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;background:rgba(201,162,74,0.35);}
+  .t-item{position:relative;padding:0 0 34px 28px;}
+  .t-item::before{content:"";position:absolute;left:-4.5px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--gold);}
+  .t-item:last-child{padding-bottom:0;}
+  .t-item .t-fig{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold-soft);}
+  .t-item .t-desc{font-size:14.5px;color:var(--muted);margin-top:4px;}
+  .t-item .t-co{font-size:12px;color:#6c7889;margin-top:2px;letter-spacing:0.3px;}
+
+  /* CONTACT */
+  .contact{background:var(--cream);padding:110px 0;text-align:center;}
+  .contact h2{font-size:32px;font-weight:500;max-width:600px;margin:0 auto 16px;}
+  .contact p{color:#5a6270;margin-bottom:36px;}
+  .contact-btn{display:inline-block;background:var(--navy);color:var(--gold-soft);padding:16px 34px;font-size:13px;letter-spacing:1.5px;font-weight:600;border:1px solid var(--navy);transition:all .2s;}
+  .contact-btn:hover{background:transparent;color:var(--navy);}
+
+  footer{background:var(--navy);color:var(--muted);padding:32px 0;font-size:13px;}
+  .footer-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+
+  [data-i18n]{transition:opacity .15s;}
+
+  @media(max-width:860px){
+    .nav-links{display:none;}
+    .hero-grid,.about-grid,.services-intro-grid{grid-template-columns:1fr;}
+    .services-grid{grid-template-columns:1fr;}
+    .service-card{border-right:none;}
+    .stat-row{grid-template-columns:repeat(2,1fr);}
+    .hero h1{font-size:36px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo"><img src="gl-seal-icon.png" alt="GL Financial Consulting"><span>FINANCIAL CONSULTING</span></div>
+      <div class="nav-links">
+        <a href="#home" data-i18n="nav_home">Home</a>
+        <a href="#services" data-i18n="nav_services">Services</a>
+        <a href="#about" data-i18n="nav_about">About</a>
+        <a href="#results" data-i18n="nav_results">Results</a>
+        <a href="#contact" data-i18n="nav_contact">Contact</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+          <button id="btn-es" onclick="setLang('es')">ES</button>
+        </div>
+        <a href="#contact" class="cta-btn" data-i18n="nav_cta">Book an Initial Consultation</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero grid-texture" id="home">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow" data-i18n="hero_eyebrow">FRACTIONAL CFO · DEBT & TREASURY</div>
+      <h1 data-i18n="hero_title">Corporate-grade financial structure, without the cost of a full-time CFO.</h1>
+      <p class="lead" data-i18n="hero_lead">Boutique advisory for growing mid-market companies that need real financial discipline.</p>
+      <a href="#contact" class="cta-btn" data-i18n="nav_cta">Book an Initial Consultation</a>
+    </div>
+  </div>
+</section>
+
+<section class="services-intro">
+  <div class="container services-intro-grid">
+    <div>
+      <div class="bar"></div>
+      <h2 data-i18n="si_title">Debt structuring and treasury for growing mid-market companies.</h2>
+    </div>
+    <div>
+      <p data-i18n="si_text">GL Financial Consulting works alongside CEOs and lean finance teams to structure debt, manage treasury, and bring executive-level financial discipline to mid-market companies with revenue up to USD 250M.</p>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="services-grid container" style="padding:0;">
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M24 6l18 10H6L24 6z"/><path d="M10 20v16M18 20v16M30 20v16M38 20v16"/><path d="M6 40h36"/><rect x="20" y="26" width="8" height="10" stroke-dasharray="2 2"/></svg>
+      <h3 data-i18n="s1_title">Debt structuring</h3>
+      <p data-i18n="s1_text">Refinancing, credit lines, and capital for expansion. Built for three real situations: financing growth, fixing interest costs that are draining liquidity, or cleaning up the capital structure before a sale.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="24" cy="24" r="16"/><path d="M24 15v9l7 4"/><path d="M14 34c2-3 6-5 10-5s8 2 10 5"/></svg>
+      <h3 data-i18n="s2_title">Treasury management</h3>
+      <p data-i18n="s2_text">Cash flow forecasting, banking relationships, and liquidity discipline. Practical treasury design built for how growing mid-market companies actually operate.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="8" y="10" width="32" height="24" rx="1"/><path d="M8 18h32"/><path d="M16 26h6M16 30h10"/><circle cx="32" cy="27" r="3"/></svg>
+      <h3 data-i18n="s3_title">Fractional CFO</h3>
+      <p data-i18n="s3_text">Executive reporting, forecasting, and decision support for the CEO. The financial partner you need at the table, without a full-time hire.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 24c4-8 12-8 16 0s12 8 16 0" stroke-dasharray="3 4"/><circle cx="8" cy="24" r="3"/><circle cx="40" cy="24" r="3"/><path d="M24 12v6M24 30v6"/></svg>
+      <h3 data-i18n="s4_title">Cross-border expansion</h3>
+      <p data-i18n="s4_text">Entity structuring, cross-border banking, and financial governance for companies expanding between the U.S. and Latin America, in either direction.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="16" y="16" width="16" height="16" rx="2"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6M11 11l4 4M33 33l4 4M37 11l-4 4M15 33l-4 4"/><circle cx="24" cy="24" r="2.5" fill="currentColor" stroke="none"/></svg>
+      <h3 data-i18n="s5_title">AI-driven finance automation</h3>
+      <p data-i18n="s5_text">Applying AI tools to finance and operations to cut manual work and improve reporting quality. A complementary line within a full CEO-advisory offering.</p>
+    </div>
+    <div class="service-card">
+      <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 34l9-11 8 6 15-19"/><path d="M32 10h8v8"/></svg>
+      <h3 data-i18n="s6_title">Growth strategy</h3>
+      <p data-i18n="s6_text">Financial advisory for companies chasing growth: how to structure capital and operations so they can actually support it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="container about-grid">
+    <div class="photo-frame">
+      <img src="gustavo-lozada-web.jpg" alt="Gustavo Lozada">
+    </div>
+    <div>
+      <div class="bar"></div>
+      <h2 data-i18n="about_title">Two decades of C-level financial leadership.</h2>
+      <p data-i18n="about_p1">For more than 20 years, working shoulder to shoulder with CEOs and executive teams on treasury, financial reporting, and capital strategy. Experience across organizations from USD 15M to USD 900M in revenue, multi-country treasury operations, and complex capital structures. Fluent in English and Spanish.</p>
+      <p data-i18n="about_p2">GL Financial Consulting is a new chapter of independent fractional CFO practice, built on 20 years of direct corporate experience.</p>
+      <div class="edu" data-i18n="about_edu">Bachelor in Business Administration and Master in Finance — Universidad ICESI</div>
+    </div>
+  </div>
+</section>
+
+<section class="results grid-texture" id="results">
+  <div class="container">
+    <h2 data-i18n="results_title">Two decades. Real numbers.</h2>
+    <p data-i18n="results_lead">Selected results from 20+ years leading treasury, capital strategy, and financial reporting inside operating companies.</p>
+
+    <div class="stat-row">
+      <div class="stat"><div class="num">USD 200M+</div><div class="label" data-i18n="stat1">structured in financing</div></div>
+      <div class="stat"><div class="num">6</div><div class="label" data-i18n="stat2">countries in treasury</div></div>
+      <div class="stat"><div class="num">20+</div><div class="label" data-i18n="stat3">years of experience</div></div>
+      <div class="stat"><div class="num">USD 900M</div><div class="label" data-i18n="stat4">largest organization managed</div></div>
+    </div>
+
+    <div class="timeline">
+      <div class="t-item">
+        <div class="t-fig">USD 130M</div>
+        <div class="t-desc" data-i18n="tl1">Project financing structured for energy and industrial cogeneration assets.</div>
+        <div class="t-co">Grupo Agroindustrial Riopaila Castilla</div>
+      </div>
+      <div class="t-item">
+        <div class="t-fig">USD 65M</div>
+        <div class="t-desc" data-i18n="tl2">Credit facilities negotiated to support multi-country expansion.</div>
+        <div class="t-co">Cartones América</div>
+      </div>
+      <div class="t-item">
+        <div class="t-fig">6 <span style="font-size:14px;">countries</span></div>
+        <div class="t-desc" data-i18n="tl3">Treasury operations led for a USD 700M revenue manufacturing group.</div>
+        <div class="t-co">Cartones América</div>
+      </div>
+      <div class="t-item">
+        <div class="t-fig">-150 bps</div>
+        <div class="t-desc" data-i18n="tl4">Financing cost reduced through long-term debt refinancing.</div>
+        <div class="t-co">Grupo Agroindustrial Riopaila Castilla</div>
+      </div>
+      <div class="t-item">
+        <div class="t-fig">60%</div>
+        <div class="t-desc" data-i18n="tl5">Of corporate debt stabilized with a 5-year interest rate swap.</div>
+        <div class="t-co">Promoambiental S.A.S. E.S.P.</div>
+      </div>
+      <div class="t-item">
+        <div class="t-fig">-15%</div>
+        <div class="t-desc" data-i18n="tl6">Treasury and accounting costs reduced through centralization.</div>
+        <div class="t-co">Promoambiental S.A.S. E.S.P.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="container">
+    <h2 data-i18n="contact_title">Bring executive finance discipline to your next stage.</h2>
+    <p data-i18n="contact_p">A short, direct conversation is the fastest way to see whether we're a fit.</p>
+    <a href="mailto:glozada@icloud.com" class="contact-btn" data-i18n="nav_cta">Book an Initial Consultation</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-grid">
+    <div>GL Financial Consulting LLC — Miami, FL</div>
+    <div>+1 305 724 8328 · glozada@icloud.com</div>
+  </div>
+</footer>
+
+<script>
+const i18n = {
+  en: {
+    nav_home:"Home", nav_services:"Services", nav_about:"About", nav_results:"Results", nav_contact:"Contact",
+    nav_cta:"Book an Initial Consultation",
+    hero_eyebrow:"FRACTIONAL CFO · DEBT & TREASURY",
+    hero_title:"Corporate-grade financial structure, without the cost of a full-time CFO.",
+    hero_lead:"Boutique advisory for growing mid-market companies that need real financial discipline.",
+    si_title:"Debt structuring and treasury for growing mid-market companies.",
+    si_text:"GL Financial Consulting works alongside CEOs and lean finance teams to structure debt, manage treasury, and bring executive-level financial discipline to mid-market companies with revenue up to USD 250M.",
+    s1_title:"Debt structuring",
+    s1_text:"Refinancing, credit lines, and capital for expansion. Built for three real situations: financing growth, fixing interest costs that are draining liquidity, or cleaning up the capital structure before a sale.",
+    s2_title:"Treasury management",
+    s2_text:"Cash flow forecasting, banking relationships, and liquidity discipline. Practical treasury design built for how growing mid-market companies actually operate.",
+    s3_title:"Fractional CFO",
+    s3_text:"Executive reporting, forecasting, and decision support for the CEO. The financial partner you need at the table, without a full-time hire.",
+    s4_title:"Cross-border expansion",
+    s4_text:"Entity structuring, cross-border banking, and financial governance for companies expanding between the U.S. and Latin America, in either direction.",
+    s5_title:"AI-driven finance automation",
+    s5_text:"Applying AI tools to finance and operations to cut manual work and improve reporting quality. A complementary line within a full CEO-advisory offering.",
+    s6_title:"Growth strategy",
+    s6_text:"Financial advisory for companies chasing growth: how to structure capital and operations so they can actually support it.",
+    about_title:"Two decades of C-level financial leadership.",
+    about_p1:"For more than 20 years, working shoulder to shoulder with CEOs and executive teams on treasury, financial reporting, and capital strategy. Experience across organizations from USD 15M to USD 900M in revenue, multi-country treasury operations, and complex capital structures. Fluent in English and Spanish.",
+    about_p2:"GL Financial Consulting is a new chapter of independent fractional CFO practice, built on 20 years of direct corporate experience.",
+    about_edu:"Bachelor in Business Administration and Master in Finance — Universidad ICESI",
+    results_title:"Two decades. Real numbers.",
+    results_lead:"Selected results from 20+ years leading treasury, capital strategy, and financial reporting inside operating companies.",
+    stat1:"structured in financing", stat2:"countries in treasury", stat3:"years of experience", stat4:"largest organization managed",
+    tl1:"Project financing structured for energy and industrial cogeneration assets.",
+    tl2:"Credit facilities negotiated to support multi-country expansion.",
+    tl3:"Treasury operations led for a USD 700M revenue manufacturing group.",
+    tl4:"Financing cost reduced through long-term debt refinancing.",
+    tl5:"Of corporate debt stabilized with a 5-year interest rate swap.",
+    tl6:"Treasury and accounting costs reduced through centralization.",
+    contact_title:"Bring executive finance discipline to your next stage.",
+    contact_p:"A short, direct conversation is the fastest way to see whether we're a fit."
+  },
+  es: {
+    nav_home:"Inicio", nav_services:"Servicios", nav_about:"Sobre mí", nav_results:"Resultados", nav_contact:"Contacto",
+    nav_cta:"Agenda una consulta inicial",
+    hero_eyebrow:"CFO FRACCIONAL · DEUDA Y TESORERÍA",
+    hero_title:"Estructura financiera de nivel corporativo, sin el costo de un CFO de tiempo completo.",
+    hero_lead:"Asesoría boutique para empresas medianas en crecimiento que necesitan disciplina financiera real.",
+    si_title:"Estructuración de deuda y tesorería para empresas medianas en crecimiento.",
+    si_text:"GL Financial Consulting trabaja junto a CEOs y equipos financieros delgados para estructurar deuda, gestionar tesorería y llevar disciplina financiera ejecutiva a empresas medianas con ingresos de hasta USD 250M.",
+    s1_title:"Estructuración de deuda",
+    s1_text:"Refinanciamiento, líneas de crédito y capital para expansión. Pensado para tres situaciones reales: financiar el crecimiento, corregir un costo de intereses que está drenando la liquidez, u ordenar la estructura de capital antes de una venta.",
+    s2_title:"Gestión de tesorería",
+    s2_text:"Forecasting de flujo de caja, relaciones bancarias y disciplina de liquidez. Diseño práctico de tesorería pensado para cómo operan realmente las empresas medianas en crecimiento.",
+    s3_title:"CFO fraccional",
+    s3_text:"Reporting ejecutivo, forecasting y apoyo a la toma de decisiones del CEO. El socio financiero que necesitas en la mesa, sin una contratación de tiempo completo.",
+    s4_title:"Expansión cross border",
+    s4_text:"Estructuración de entidades, banca cross border y gobernanza financiera para empresas que se expanden entre EE.UU. y Latinoamérica, en cualquiera de las dos direcciones.",
+    s5_title:"Automatización de procesos con IA",
+    s5_text:"Aplicación de herramientas de inteligencia artificial en procesos financieros y operativos, para reducir el trabajo manual y mejorar la calidad del reporting. Una línea complementaria dentro de una asesoría integral al CEO.",
+    s6_title:"Estrategias de growth",
+    s6_text:"Asesoría financiera para empresas que buscan crecer: cómo estructurar capital y operaciones para que ese crecimiento sea sostenible.",
+    about_title:"Dos décadas de liderazgo financiero de nivel C.",
+    about_p1:"Por más de 20 años, trabajando codo a codo con CEOs y equipos ejecutivos en tesorería, reporting financiero y estrategia de capital. Experiencia en organizaciones de USD 15M a USD 900M en ingresos, operaciones de tesorería multipaís y estructuras de capital complejas. Bilingüe inglés y español.",
+    about_p2:"GL Financial Consulting es una nueva etapa de práctica independiente de CFO fraccional, construida sobre 20 años de experiencia corporativa directa.",
+    about_edu:"Administrador de Negocios y Master en Finanzas — Universidad ICESI",
+    results_title:"Dos décadas. Cifras reales.",
+    results_lead:"Resultados seleccionados de más de 20 años liderando tesorería, estrategia de capital y reporting financiero dentro de empresas operativas.",
+    stat1:"estructurados en financiamiento", stat2:"países en tesorería", stat3:"años de experiencia", stat4:"mayor organización gestionada",
+    tl1:"Financiamiento de proyecto estructurado para activos de cogeneración energética e industrial.",
+    tl2:"Líneas de crédito negociadas para soportar expansión multipaís.",
+    tl3:"Operaciones de tesorería lideradas para un grupo manufacturero de USD 700M en ingresos.",
+    tl4:"Costo de financiamiento reducido mediante refinanciación de deuda de largo plazo.",
+    tl5:"De la deuda corporativa estabilizada con un swap de tasa de interés a 5 años.",
+    tl6:"Costos de tesorería y contabilidad reducidos mediante centralización.",
+    contact_title:"Lleva disciplina financiera ejecutiva a tu siguiente etapa.",
+    contact_p:"Una conversación corta y directa es la forma más rápida de ver si encajamos."
+  }
+};
+
+function setLang(lang){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(i18n[lang][key]) el.textContent = i18n[lang][key];
+  });
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.getElementById('btn-es').classList.toggle('active', lang==='es');
+  document.documentElement.lang = lang;
+}
+</script>
+
+</body>
+</html>
