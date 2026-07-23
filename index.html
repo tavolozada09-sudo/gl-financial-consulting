@@ -106,8 +106,17 @@
   .contact{background:var(--cream);padding:110px 0;text-align:center;}
   .contact h2{font-size:32px;font-weight:500;max-width:600px;margin:0 auto 16px;}
   .contact p{color:#5a6270;margin-bottom:36px;}
-  .contact-btn{display:inline-block;background:var(--navy);color:var(--gold-soft);padding:16px 34px;font-size:13px;letter-spacing:1.5px;font-weight:600;border:1px solid var(--navy);transition:all .2s;}
+  .contact-btn{display:inline-block;background:var(--navy);color:var(--gold-soft);padding:16px 34px;font-size:13px;letter-spacing:1.5px;font-weight:600;border:1px solid var(--navy);transition:all .2s;cursor:pointer;}
   .contact-btn:hover{background:transparent;color:var(--navy);}
+  .contact-form{max-width:480px;margin:0 auto;text-align:left;}
+  .contact-form .row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  .contact-form input,.contact-form textarea{width:100%;padding:13px 14px;border:1px solid #d8d3c5;background:#fff;font-family:'Inter',sans-serif;font-size:14px;color:var(--text-dark, #1c2430);margin-bottom:14px;}
+  .contact-form textarea{resize:vertical;min-height:100px;}
+  .contact-form input:focus,.contact-form textarea:focus{outline:none;border-color:var(--gold, #c9a24a);}
+  .contact-form .hp{position:absolute;left:-9999px;}
+  .form-msg{max-width:480px;margin:0 auto;padding:18px;background:var(--navy);color:var(--gold-soft);font-size:14px;}
+  .form-msg.error{background:#7a2e2e;color:#f5e6e6;}
+  .hidden{display:none;}
 
   footer{background:var(--navy);color:var(--muted);padding:32px 0;font-size:13px;}
   .footer-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
@@ -272,7 +281,21 @@
   <div class="container">
     <h2 data-i18n="contact_title">Bring executive finance discipline to your next stage.</h2>
     <p data-i18n="contact_p">A short, direct conversation is the fastest way to see whether we're a fit.</p>
-    <a href="mailto:glozada@icloud.com" class="contact-btn" data-i18n="nav_cta">Book an Initial Consultation</a>
+
+    <form class="contact-form" id="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="contact">
+      <p class="hp"><label>Don't fill this out: <input name="bot-field"></label></p>
+      <div class="row">
+        <input type="text" name="name" data-i18n-ph="form_name" placeholder="Name" required>
+        <input type="email" name="email" data-i18n-ph="form_email" placeholder="Email" required>
+      </div>
+      <input type="text" name="company" data-i18n-ph="form_company" placeholder="Company (optional)">
+      <textarea name="message" data-i18n-ph="form_message" placeholder="Tell us briefly what you need" required></textarea>
+      <button type="submit" class="contact-btn" data-i18n="form_submit">Book an Initial Consultation</button>
+    </form>
+
+    <div id="form-success" class="form-msg hidden" data-i18n="form_success">Thank you. We'll be in touch within one business day.</div>
+    <div id="form-error" class="form-msg error hidden" data-i18n="form_error">Something went wrong. Please write to us directly at glozada@icloud.com.</div>
   </div>
 </section>
 
@@ -319,7 +342,11 @@ const i18n = {
     tl5:"Of corporate debt stabilized with a 5-year interest rate swap.",
     tl6:"Treasury and accounting costs reduced through centralization.",
     contact_title:"Bring executive finance discipline to your next stage.",
-    contact_p:"A short, direct conversation is the fastest way to see whether we're a fit."
+    contact_p:"A short, direct conversation is the fastest way to see whether we're a fit.",
+    form_name:"Name", form_email:"Email", form_company:"Company (optional)", form_message:"Tell us briefly what you need",
+    form_submit:"Book an Initial Consultation",
+    form_success:"Thank you. We'll be in touch within one business day.",
+    form_error:"Something went wrong. Please write to us directly at glozada@icloud.com."
   },
   es: {
     nav_home:"Inicio", nav_services:"Servicios", nav_about:"Sobre mí", nav_results:"Resultados", nav_contact:"Contacto",
@@ -355,7 +382,11 @@ const i18n = {
     tl5:"De la deuda corporativa estabilizada con un swap de tasa de interés a 5 años.",
     tl6:"Costos de tesorería y contabilidad reducidos mediante centralización.",
     contact_title:"Lleva disciplina financiera ejecutiva a tu siguiente etapa.",
-    contact_p:"Una conversación corta y directa es la forma más rápida de ver si encajamos."
+    contact_p:"Una conversación corta y directa es la forma más rápida de ver si encajamos.",
+    form_name:"Nombre", form_email:"Correo", form_company:"Empresa (opcional)", form_message:"Cuéntanos brevemente qué necesitas",
+    form_submit:"Agenda una consulta inicial",
+    form_success:"Gracias. Te contactaremos en menos de un día hábil.",
+    form_error:"Algo salió mal. Escríbenos directamente a glozada@icloud.com."
   }
 };
 
@@ -364,9 +395,36 @@ function setLang(lang){
     const key = el.getAttribute('data-i18n');
     if(i18n[lang][key]) el.textContent = i18n[lang][key];
   });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-ph');
+    if(i18n[lang][key]) el.setAttribute('placeholder', i18n[lang][key]);
+  });
   document.getElementById('btn-en').classList.toggle('active', lang==='en');
   document.getElementById('btn-es').classList.toggle('active', lang==='es');
   document.documentElement.lang = lang;
+}
+
+const contactForm = document.getElementById('contact-form');
+if(contactForm){
+  contactForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const data = new FormData(contactForm);
+    fetch('/', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: new URLSearchParams(data).toString()
+    }).then(res => {
+      if(res.ok){
+        contactForm.classList.add('hidden');
+        document.getElementById('form-success').classList.remove('hidden');
+        document.getElementById('form-error').classList.add('hidden');
+      } else {
+        throw new Error('Form submission failed');
+      }
+    }).catch(() => {
+      document.getElementById('form-error').classList.remove('hidden');
+    });
+  });
 }
 </script>
 
